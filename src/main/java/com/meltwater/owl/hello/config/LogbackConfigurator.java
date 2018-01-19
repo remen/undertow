@@ -1,4 +1,4 @@
-package com.meltwater.owl.hello;
+package com.meltwater.owl.hello.config;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;

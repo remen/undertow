@@ -1,1 +1,1 @@
-com.meltwater.owl.hello.LogbackConfigurator
+com.meltwater.owl.hello.config.LogbackConfigurator
