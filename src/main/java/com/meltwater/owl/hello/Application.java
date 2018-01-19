@@ -10,7 +10,12 @@ import static io.undertow.Handlers.routing;
 
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-    private final HttpHandler HEALTH_HANDLER = exchange -> {
+
+    private static final HttpHandler ROOT_HANDLER = exchange -> {
+        exchange.getResponseHeaders().add(Headers.CONTENT_TYPE, "text/plain");
+        exchange.getResponseSender().send("Hello World!");
+    };
+    private static final HttpHandler HEALTH_HANDLER = exchange -> {
         exchange.getResponseHeaders().add(Headers.CONTENT_TYPE, "application/json");
         exchange.getResponseSender().send("{ \"status\" : \"running\" }");
     };
@@ -19,10 +24,7 @@ public class Application {
         .addHttpListener(8080, "localhost")
         .setHandler(
             routing()
-                .get("/", exchange -> {
-                    exchange.getResponseHeaders().add(Headers.CONTENT_TYPE, "text/plain");
-                    exchange.getResponseSender().send("Hello World!");
-                })
+                .get("/", ROOT_HANDLER)
                 .get("/health", HEALTH_HANDLER)
         ).build();
 
