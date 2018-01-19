@@ -1,28 +1,11 @@
-buildscript {
-    ext {
-        junitPlatformVersion = '1.0.3'
-    }
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion"
-    }
-}
-
 plugins {
     id 'java'
+    id "org.mikeneck.junit.starter.library" version "5.0.2"
 }
-
-apply plugin: 'org.junit.platform.gradle.plugin'
-
 
 repositories {
     jcenter()
 }
-
-ext.junitJupiterVersion  = '5.0.3'
 
 dependencies {
     compile 'io.undertow:undertow-core:1.4.12.Final'
@@ -31,22 +14,15 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
 
-    // JUnit Jupiter API and TestEngine implementation
-    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
 
-    // Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
-    testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}")
+    // TEST DEPENDENCIES
+    // -----------------
+    // To avoid compiler warnings about @API annotations in JUnit code
+    testCompileOnly('org.apiguardian:apiguardian-api:1.0.0')
 
-    // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
 
-
-// https://mvnrepository.com/artifact/org.apache.httpcomponents/fluent-hc
     testCompile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.4'
-
-// https://mvnrepository.com/artifact/com.google.guava/guava
     testCompile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
-
 }
 
