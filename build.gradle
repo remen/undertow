@@ -5,6 +5,7 @@ plugins {
     id "org.ajoberstar.grgit" version "2.1.0"
 }
 
+applicationName = 'app' // For convenience in Dockerfile
 mainClassName = 'com.meltwater.owl.hello.Application'
 ext.commit = grgit.head().getAbbreviatedId() + (grgit.status().clean ? "" : "-dirty")
 version = new Date().format("yyyyMMdd'T'HHmmss") + "-$commit"
@@ -13,6 +14,16 @@ tasks.remove(distTar)
 tasks.remove(distZip)
 tasks.remove(assembleDist)
 assemble.dependsOn(installDist)
+
+task("dockerBuild", type: Exec) {
+    group = 'Docker'
+    description = 'Builds a docker image from this project'
+
+    inputs.files "Dockerfile"
+    inputs.files tasks.installDist.outputs
+
+    commandLine 'docker', 'build', '-t', "${project.name}:${project.version}", "."
+}
 
 repositories {
     jcenter()
