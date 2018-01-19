@@ -2,9 +2,12 @@ plugins {
     id 'java'
     id 'application'
     id "org.mikeneck.junit.starter.library" version "5.0.2"
+    id "org.ajoberstar.grgit" version "2.1.0"
 }
 
 mainClassName = 'com.meltwater.owl.hello.Application'
+ext.commit = grgit.head().getAbbreviatedId() + (grgit.status().clean ? "" : "-dirty")
+version = new Date().format("yyyyMMdd'T'HHmmss") + "-$commit"
 
 tasks.remove(distTar)
 tasks.remove(distZip)
