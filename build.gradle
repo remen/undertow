@@ -1,7 +1,15 @@
 plugins {
     id 'java'
+    id 'application'
     id "org.mikeneck.junit.starter.library" version "5.0.2"
 }
+
+mainClassName = 'com.meltwater.owl.hello.Application'
+
+tasks.remove(distTar)
+tasks.remove(distZip)
+tasks.remove(assembleDist)
+assemble.dependsOn(installDist)
 
 repositories {
     jcenter()
