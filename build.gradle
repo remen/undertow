@@ -10,11 +10,11 @@ mainClassName = 'com.meltwater.owl.hello.Application'
 ext.commit = grgit.head().getAbbreviatedId() + (grgit.status().clean ? "" : "-dirty")
 version = new Date().format("yyyyMMdd'T'HHmmss") + "-$commit"
 
-tasks.remove(distTar)
-tasks.remove(distZip)
-tasks.remove(assembleDist)
+distTar.enabled = false
+distZip.enabled = false
 assemble.dependsOn(installDist)
 
+ext.dockerTag = "meltwater-docker-platform-registry.bintray.io/${project.name}:${project.version}"
 task("dockerBuild", type: Exec) {
     group = 'Docker'
     description = 'Builds a docker image from this project'
@@ -22,7 +22,7 @@ task("dockerBuild", type: Exec) {
     inputs.files "Dockerfile"
     inputs.files tasks.installDist.outputs
 
-    commandLine 'docker', 'build', '-t', "${project.name}:${project.version}", "."
+    commandLine 'docker', 'build', '-t', "${dockerTag}", "."
 }
 
 repositories {
