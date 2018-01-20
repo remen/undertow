@@ -24,7 +24,7 @@ public class PrometheusUndertowAdapter {
         return exchange -> {
             long before = System.currentTimeMillis();
             exchange.addExchangeCompleteListener((finishedExchange, nextListener) -> {
-                Double durationSeconds = (double)(System.currentTimeMillis() - before)/100;
+                Double durationSeconds = (double) (System.currentTimeMillis() - before) / 1000;
                 String path = finishedExchange.getRelativePath();
                 String method = finishedExchange.getRequestMethod().toString();
                 String statusCode = Integer.toString(finishedExchange.getStatusCode());
