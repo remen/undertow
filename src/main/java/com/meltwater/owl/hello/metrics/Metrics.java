@@ -12,7 +12,7 @@ public class Metrics {
     public static final Histogram HTTP_REQUEST_DURATION_SECONDS = Histogram
         .build("http_request_duration_seconds", "The http request latency in seconds.")
         .labelNames("path", "method", "status_code")
-        .register();
+        .register(); // TODO: Tune bucket sizes
 
 
 }
