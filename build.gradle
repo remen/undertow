@@ -29,12 +29,19 @@ repositories {
     jcenter()
 }
 
+
+ext.prometheus_client_version = "0.1.0"
 dependencies {
     compile 'io.undertow:undertow-core:1.4.12.Final'
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
+
+    // Metrics
+    compile "io.prometheus:simpleclient:${prometheus_client_version}"
+    compile "io.prometheus:simpleclient_hotspot:${prometheus_client_version}"
+    compile "io.prometheus:simpleclient_common:${prometheus_client_version}"
 
 
     // TEST DEPENDENCIES
