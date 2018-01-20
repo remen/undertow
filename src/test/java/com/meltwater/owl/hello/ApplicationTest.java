@@ -17,11 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ApplicationTest {
-    private final Application application = new Application();
+    private final Application application = new Application(0); // Randomize port
+    private String baseUrl;
 
     @BeforeAll
     void beforeAll() throws Exception {
         application.start();
+        baseUrl = "http://localhost:" + application.getPort();
     }
 
     @AfterAll
@@ -32,7 +34,7 @@ class ApplicationTest {
     @Test
     @DisplayName("The /health endpoint is successful")
     void the_health_endpoint_is_successful() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://localhost:8080/health")
+        HttpResponse httpResponse = Request.Get(baseUrl + "/health")
             .execute()
             .returnResponse();
         assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
@@ -41,7 +43,7 @@ class ApplicationTest {
     @Test
     @DisplayName("The / endpoint is successful")
     void the_root_endpoint_is_successful() throws Exception {
-        HttpResponse httpResponse = Request.Get("http://localhost:8080")
+        HttpResponse httpResponse = Request.Get(baseUrl + "/")
             .execute()
             .returnResponse();
         assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
